@@ -1,0 +1,1 @@
+ALTER TABLE medicos ADD COLUMN calle varchar(100) not null;
