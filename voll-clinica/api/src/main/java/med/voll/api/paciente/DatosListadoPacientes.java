@@ -1,13 +1,12 @@
-package med.voll.api.medico;
-
-import med.voll.api.paciente.Paciente;
+package med.voll.api.paciente;
 
 public record DatosListadoPacientes(
+        Long id,
         String nombre,
         String email,
         String documento) {
 
     public DatosListadoPacientes(Paciente paciente) {
-        this (paciente.getNombre(),paciente.getEmail(), paciente.getDocumento());
+        this (paciente.getId(), paciente.getNombre(),paciente.getEmail(), paciente.getDocumento());
     }
 }
