@@ -1,26 +1,28 @@
-package med.voll.api.medico;
+package med.voll.api.domain.paciente;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
-import med.voll.api.direccion.DatosDireccion;
+import med.voll.api.domain.direccion.DatosDireccion;
 
-public record DatosRegistroMedico(
+public record DatosRegistroPaciente(
         @NotBlank
         String nombre,
+
         @NotBlank
         @Email
         String email,
-        @NotBlank
-        @Pattern(regexp = "\\d{9,10}") //sin guion
-       //@Pattern(regexp = "\\d{2}\\.?\\d{3}\\.?\\d{3}\\-?\\d{1}" con guion y puntos opcionales test
-        String documento,
+
         @NotBlank
         @Pattern(regexp = "\\d{9}")//solo 9 digitos numericos
         String telefono,
-        @NotNull
-        Especialidad especialidad,
+
+        @NotBlank
+        @Pattern(regexp = "\\d{9,10}") //sin gion
+        //@Pattern(regexp = "\\d{2}\\.?\\d{3}\\.?\\d{3}\\-?\\d{1}" con guion y puntos opcionales test
+        String documento,
+
         @NotNull
         DatosDireccion direccion
 ) {

@@ -1,8 +1,6 @@
-package med.voll.api.medico;
+package med.voll.api.domain.medico;
 
-import jakarta.validation.Valid;
-import med.voll.api.direccion.DatosActializacionDrieccion;
-import med.voll.api.direccion.DatosDireccion;
+import med.voll.api.domain.direccion.DatosDireccion;
 
 public record DatosRespuestaMedico(Long id,
                                    String nombre,

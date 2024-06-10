@@ -1,7 +1,7 @@
-package med.voll.api.paciente;
+package med.voll.api.domain.paciente;
 
 import jakarta.validation.Valid;
-import med.voll.api.direccion.DatosActializacionDrieccion;
+import med.voll.api.domain.direccion.DatosActializacionDrieccion;
 
 public record DatosActualizacionPacientes(
         Long id,
