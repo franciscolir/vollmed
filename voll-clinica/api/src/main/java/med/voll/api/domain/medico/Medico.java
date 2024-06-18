@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import med.voll.api.domain.direccion.Direccion;
 
+import java.time.LocalDateTime;
+
 @Table(name = "medicos")
 @Entity(name = "Medico")
 @Getter
@@ -25,6 +27,7 @@ public class Medico {
     private String telefono;
     @Enumerated(EnumType.STRING)
     private Especialidad especialidad;
+    //private LocalDateTime fecha;
     @Embedded
     private Direccion direccion;
 
