@@ -11,7 +11,7 @@ public record DatosAgendarConsulta(
         @NotNull
         Long idPaciente,
         Long idMedico,
-        @NotNull
+        @NotNull(message = "La fecha no puede ser nula")
         @Future
         LocalDateTime fecha,
         Especialidad especialidad) {
