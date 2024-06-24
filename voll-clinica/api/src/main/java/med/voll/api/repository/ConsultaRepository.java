@@ -1,7 +1,8 @@
 package med.voll.api.repository;
 
-import med.voll.api.domain.consulta.Consulta;
+import med.voll.api.domain.consulta.agendar.Consulta;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
@@ -9,7 +10,18 @@ import java.time.LocalDateTime;
 @Repository
 public interface ConsultaRepository extends JpaRepository<Consulta, Long> {
 
-    Boolean existsByPacienteIdAndFechaBetween(Long idPaciente, LocalDateTime primerHorario, LocalDateTime ultimoHorario);
+    Boolean existsByPacienteIdAndFechaBetweenAndActivoTrue(Long idPaciente, LocalDateTime primerHorario, LocalDateTime ultimoHorario);
 
-    Boolean existsByMedicoIdAndFecha(Long idMedico, LocalDateTime fecha);
+    Boolean existsByMedicoIdAndFechaAndActivoTrue(Long idMedico, LocalDateTime fecha);
+
+    @Query("""
+        SELECT c.activo
+        FROM Consulta c
+        WHERE c.id=:id
+        """)
+    Boolean findAllActivoById(Long id);
+
+    Consulta getReferenceByPacienteId(Long id);
+
+
 }

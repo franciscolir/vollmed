@@ -1,25 +1,25 @@
 package med.voll.api.domain.consulta.validaciones;
 
 import jakarta.validation.ValidationException;
-import med.voll.api.domain.consulta.DatosAgendarConsulta;
+import med.voll.api.domain.consulta.agendar.DatosDetalleConsulta;
 import med.voll.api.repository.ConsultaRepository;
-import med.voll.api.repository.PacienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class PacienteSinConsulta  implements ValidadorDeConsultas{
+public class PacienteSinConsulta  implements IValidadorDeConsultas {
     @Autowired
     private ConsultaRepository repository;
 
-    public void validar (DatosAgendarConsulta datos){
-        var primerHorario = datos.fecha().withHour(7);
-        var ultimoHorario = datos.fecha().withHour(18);
+    public <T extends IDatosConsulta> DatosDetalleConsulta validar(T datos){
+        var primerHorario = datos.getFecha().withHour(7);
+        var ultimoHorario = datos.getFecha().withHour(18);
 
-        var pacienteConConsulta = repository.existsByPacienteIdAndFechaBetween(datos.idPaciente(),primerHorario,ultimoHorario);
+        var pacienteConConsulta = repository.existsByPacienteIdAndFechaBetweenAndActivoTrue(datos.getIdPaciente(),primerHorario,ultimoHorario);
 
         if(pacienteConConsulta){
             throw new ValidationException("paciente ya agendo consulta");
         }
+        return null;
     }
 }

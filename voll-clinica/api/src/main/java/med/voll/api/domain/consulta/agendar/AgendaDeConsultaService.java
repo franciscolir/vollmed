@@ -1,7 +1,8 @@
-package med.voll.api.domain.consulta;
+package med.voll.api.domain.consulta.agendar;
 
+import med.voll.api.domain.consulta.validaciones.IDatosConsulta;
 import med.voll.api.infra.errores.ValidacionDeIntegridad;
-import med.voll.api.domain.consulta.validaciones.ValidadorDeConsultas;
+import med.voll.api.domain.consulta.validaciones.IValidadorDeConsultas;
 import med.voll.api.domain.medico.Medico;
 import med.voll.api.repository.ConsultaRepository;
 import med.voll.api.repository.MedicoRepository;
@@ -12,7 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class AgendaDeConsultaService {
+public class AgendaDeConsultaService implements IValidadorDeConsultas{
 
     @Autowired
     private PacienteRepository pacienteRepository;
@@ -21,43 +22,45 @@ public class AgendaDeConsultaService {
     @Autowired
     private ConsultaRepository consultaRepository;
     @Autowired
-    List<ValidadorDeConsultas> validadores;
+    List<IValidadorDeConsultas> validadores;
 
 
 
-    public DatosDetalleConsulta agendar(DatosAgendarConsulta datos){
+    public DatosDetalleConsulta validar(IDatosConsulta datos){
 
-        if(!pacienteRepository.findById(datos.idPaciente()).isPresent()){
+        if(!pacienteRepository.findById(datos.getIdPaciente()).isPresent()){
             throw new ValidacionDeIntegridad("este id para el paciente no fue encontrado");
         }
-        if(datos.idMedico()!=null && !medicoRepository.existsById(datos.idMedico())){
+        if(datos.getIdMedico()!=null && !medicoRepository.existsById(datos.getIdMedico())){
             throw new ValidacionDeIntegridad("este id para el medico no fue encontrado");
         }
 
         validadores.forEach(v-> v.validar(datos));
 
-        var paciente = pacienteRepository.findById(datos.idPaciente()).get();
-
+        var paciente = pacienteRepository.findById(datos.getIdPaciente()).get();
         var medico = seleccionarMedico(datos);
 
         if(medico==null){
             throw new ValidacionDeIntegridad("no existen medicos disponibles para este horario y especialidad");
         }
-        var consulta = new Consulta(null,medico,paciente,datos.fecha());
+       // var consulta = new Consulta(null,medico.getId(),paciente.getId(),datos.getFecha());
+        var consulta = new Consulta(null,medico,paciente,datos.getFecha(),true);
         consultaRepository.save(consulta);
 
         return new DatosDetalleConsulta(consulta);
     }
 
-    private Medico seleccionarMedico(DatosAgendarConsulta datos) {
-        if(datos.idMedico()!=null){
-            return medicoRepository.getReferenceById(datos.idMedico());
+    private Medico seleccionarMedico(IDatosConsulta datos) {
+        if(datos.getIdMedico()!=null){
+            return medicoRepository.getReferenceById(datos.getIdMedico());
 
         }
-        if(datos.especialidad()==null){
+        if(datos.getEspecialidad()==null){
             throw new ValidacionDeIntegridad("debe seleccionarse una especialidad para el medico");
         }
 
-        return medicoRepository.seleccionarMedicoConEspecialidadEnFecha(datos.especialidad(),datos.fecha());
+        return medicoRepository.seleccionarMedicoConEspecialidadEnFecha(datos.getEspecialidad(),datos.getFecha());
     }
+
+
 }

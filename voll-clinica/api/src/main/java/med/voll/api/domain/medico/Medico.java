@@ -27,7 +27,6 @@ public class Medico {
     private String telefono;
     @Enumerated(EnumType.STRING)
     private Especialidad especialidad;
-    //private LocalDateTime fecha;
     @Embedded
     private Direccion direccion;
 
@@ -52,5 +51,9 @@ public class Medico {
 
     public void desactivarMedico() {
         this.activo = false;
+    }
+
+    public Long getId() {
+        return id;
     }
 }

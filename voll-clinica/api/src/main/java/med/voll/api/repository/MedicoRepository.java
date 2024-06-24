@@ -2,13 +2,10 @@ package med.voll.api.repository;
 
 import med.voll.api.domain.medico.Especialidad;
 import med.voll.api.domain.medico.Medico;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
-
 import java.time.LocalDateTime;
 
 public interface MedicoRepository extends JpaRepository<Medico, Long> {
@@ -17,7 +14,7 @@ public interface MedicoRepository extends JpaRepository<Medico, Long> {
 
 
 
-    @Query("select m from Medico m where m.activo= true and m.especialidad=:especialidad and m.id not in(select c.medico.id from Consulta c where c.fecha=:fecha) order by rand() limit 1")
+    @Query("select m from Medico m where m.activo= true and m.especialidad=:especialidad and m.id not in(select c.medico.id from Consulta c where c.fecha=:fecha and c.activo= true) order by rand() limit 1")
     Medico seleccionarMedicoConEspecialidadEnFecha(Especialidad especialidad, LocalDateTime fecha);
 
     @Query ("""
