@@ -1,5 +1,7 @@
 package med.voll.api.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import med.voll.api.domain.consulta.agendar.*;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @ResponseBody
 @RequestMapping("/consultas")
+@SecurityRequirement(name = "bearer-key")
 public class ConsultaController {
 
     @Autowired
@@ -72,7 +75,7 @@ public class ConsultaController {
     //desactiva medico (delete logico)
 @DeleteMapping("/{id}")
 @Transactional
-public ResponseEntity cancelarr (@PathVariable Long id){
+public ResponseEntity cancelar (@PathVariable Long id){
     Consulta consulta = repository.getReferenceById(id);
     consulta.cancelarHora();
     return ResponseEntity.noContent().build();

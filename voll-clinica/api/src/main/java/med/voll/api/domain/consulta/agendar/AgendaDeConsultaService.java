@@ -62,5 +62,21 @@ public class AgendaDeConsultaService implements IValidadorDeConsultas{
         return medicoRepository.seleccionarMedicoConEspecialidadEnFecha(datos.getEspecialidad(),datos.getFecha());
     }
 
+    /*
+    //solucion de cancelamiento intructor
+    public void cancelar(DatosCancelamientoConsulta datos)
+    if(!consultaRepository.existById(datos.idConsulta())
+    throw new ValidacionDeIntegridad("id de la consulta informada no existe");
+      validadoresCancelamiento.forEach(v-> v.validar(datos));
+      var consulta = consultaRepository.getReferenceById(datos.IdConsulta())
+      consulta.cancelar(datos.motivo())
+
+      se debe validar que se puede candelar con 24hrs minimo de antelacion
+    * */
+
+    //OBS:   relizar metodo par aingresar motivo de cancelamineto de una lista de motivos.es una propiedad de Call Consulta. lista de ENUM
+    //      en cosntructpoers de otros metodo doncde se llame a consulta de debe declsarara las propiedaddes como nula si no corresponde al proceso espécifico. si se esta agendando, el motivo de cancelamineto sera null
+    //      endpiont para obtener todas las consultas. se obytiene y por medio de paginacion se filtra por cantidad. metodo GEt findAll
+
 
 }
