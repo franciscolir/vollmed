@@ -32,6 +32,10 @@ public class ConsultaController {
 
     @PostMapping
     @Transactional
+    @Operation(
+            summary = "Registra una consulta en la base de datos",
+            description = "",
+            tags = {"consulta", "post"})
     public ResponseEntity agendar(@RequestBody @Valid DatosAgendarConsulta datos) {
         var response = service.validar(datos);
         return ResponseEntity.ok(response);
